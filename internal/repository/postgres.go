@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-
+	"workflow-approval/internal/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -26,5 +26,20 @@ func NewPostgresDB() *gorm.DB {
 	}
 
 	log.Println("database connected")
+
+	runMigrations(db)
+
 	return db
+}
+
+func runMigrations(db *gorm.DB) {
+	log.Println("running database migrations...")
+	err := db.AutoMigrate(
+		&model.Workflow{},
+		&model.WorkflowStep{},
+		&model.Request{},
+	)
+	if err != nil {
+		log.Fatalf("migration failed: %v", err)
+	}
 }
