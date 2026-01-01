@@ -7,7 +7,7 @@ import (
 )
 
 type Workflow struct {
-	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
-	Name      string
-	CreatedAt time.Time
+	ID        uuid.UUID `gorm:"type:uuid;primaryKey" json:"id"`
+	Name      string    `gorm:"not null" json:"name"`
+	CreatedAt time.Time `json:"created_at"`
 }
